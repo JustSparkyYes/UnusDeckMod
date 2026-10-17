@@ -1,10 +1,10 @@
 --Unus playing cards atlas
---SMODS.Atlas {
---    key = "unus_ranks",
---    path = "",
---    px = 71,
---    py = 95
---}
+SMODS.Atlas {
+    key = "unus_ranks",
+    path = "unus_ranks_hc.png",
+    px = 71,
+    py = 95
+}
 
 
 local mod_src = SMODS.NFS.getDirectoryItems(SMODS.current_mod.path .. "src")
