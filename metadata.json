@@ -1,0 +1,9 @@
+{
+    "id": "ExampleBalatroMod",
+    "name": "EXAMPLE",
+    "author": ["JustSparkyYes"],
+    "description": "Test",
+    "prefix": "xmply",
+    "main_file": "main.lua",
+    "version": "0.0.1"
+}
