@@ -1,9 +1,9 @@
 {
-    "id": "ExampleBalatroMod",
-    "name": "EXAMPLE",
+    "id": "UnusDeckMod",
+    "name": "Unus Deck",
     "author": ["JustSparkyYes"],
-    "description": "Test",
-    "prefix": "xmply",
+    "description": "Wield the power of Unus cards with this new deck!",
+    "prefix": "unus",
     "main_file": "main.lua",
     "version": "0.0.1"
 }
