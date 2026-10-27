@@ -11,6 +11,7 @@ Deck Composition:
 
 
 Art and programming: JustSparkyYes
+
 Thanks to theAstra for their tutorials and placeholder assets.
 
 No AI was used in the making of this mod.
