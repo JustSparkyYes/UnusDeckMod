@@ -2,12 +2,12 @@ This mod (WIP) adds the Unus deck, a somewhat familiar-looking deck that contain
 
 Deck Composition:
 
--4 cards each # 0-9
--4 Skip
--4 Reverse
--4 Draw 2
--3 Wild Cards
--1 Wild Draw 4
+- 4 cards each # 0-9
+- 4 Skip
+- 4 Reverse
+- 4 Draw 2
+- 3 Wild Cards
+- 1 Wild Draw 4
 
 
 Art and programming: JustSparkyYes
