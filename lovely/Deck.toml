@@ -1,0 +1,31 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+# Removes Unus ranks from other decks
+# function generate_card_ui()
+[[patches]]
+[patches.pattern]
+target = "game.lua"
+pattern = "if self.GAME.starting_params.no_faces and SMODS.Ranks[v.value].face then keep = false end"
+position = "before"
+match_indent = true
+payload = """
+if not self.GAME.starting_params.unus_start and SMODS.Ranks[v.value].is_unus then keep = false end
+"""
+
+# Adds ability text for unus ranks
+# function generate_card_ui()
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "if main_end then"
+position = "before"
+match_indent = true
+payload = """
+local isCollection = (card and card.area and card.area.config.collection) or false
+if not isCollection and (_c.set == 'Default' or _c.set == 'Enhanced') and card and card.base and card.base.value and SMODS.Ranks[card.base.value].is_unus and not card.config.center.no_rank and not card.debuff then
+	local rank_key =  SMODS.Ranks[card.base.value].key or 'unus_0'
+    localize{type = 'other', key = rank_key..'_ability', nodes = desc_nodes}
+end"""
