@@ -1,0 +1,43 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+# Adds descriptions to Unus ranks
+# function generate_card_ui()
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "if main_end then"
+position = "before"
+match_indent = true
+payload = """
+local isCollection = (card and card.area and card.area.config.collection) or false
+if not isCollection and (_c.set == 'Default' or _c.set == 'Enhanced') and card and card.base and card.base.value and SMODS.Ranks[card.base.value].loc_desc and not card.config.center.no_rank and not card.debuff then
+	local rank_key =  SMODS.Ranks[card.base.value].key or 'unus_0'
+    localize{type = 'other', key = rank_key..'_ability', nodes = desc_nodes}
+end
+"""
+
+# Suit-first playing card names (For Wild suit)
+# function generate_card_ui()
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "localize{type = 'other', key = 'playing_card', set = 'Other', nodes = full_UI_table.name, vars = {localize(specific_vars.value, 'ranks'), localize(specific_vars.suit, 'suits_plural'), colours = {specific_vars.colour}}}"
+position = "after"
+match_indent = true
+payload = """
+end
+"""
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "localize{type = 'other', key = 'playing_card', set = 'Other', nodes = full_UI_table.name, vars = {localize(specific_vars.value, 'ranks'), localize(specific_vars.suit, 'suits_plural'), colours = {specific_vars.colour}}}"
+position = "before"
+match_indent = true
+payload = """
+if SMODS.Ranks[specific_vars.value].suit_first_loc then
+    localize{type = 'other', key = 'playing_card_ex', set = 'Other', nodes = full_UI_table.name, vars = {localize(specific_vars.value, 'ranks'), localize(specific_vars.suit, 'suits_singular'), colours = {specific_vars.colour}}}
+else
+"""

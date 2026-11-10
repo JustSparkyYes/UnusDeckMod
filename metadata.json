@@ -1,9 +1,18 @@
 {
-    "id": "UnusDeckMod",
-    "name": "Unus Deck",
-    "author": ["JustSparkyYes"],
-    "description": "Wield the power of Unus cards with this new deck!",
+    "id": "UnusMod",
     "prefix": "unus",
+    "name": "Unus Mod",
+    "display_name": "Unus",
+    "author": ["JustSparkyYes"],
+    "description": "Adds a familiar-looking deck with powerful action cards!",
+    "badge_colour": "BA2B18",
+    "badge_text_colour": "FFFFFF",
     "main_file": "main.lua",
-    "version": "0.0.1"
+    "icon_path": "modicon.png",
+    "version": "0.0.1",
+    "dependencies": [
+        "Steamodded (>=26)",
+        "Lovely (>=0.10)",
+        "Balatro (>=1.0.1o)"
+    ]
 }

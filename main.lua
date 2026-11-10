@@ -1,4 +1,103 @@
 local unus = SMODS.current_mod
+local unus_config = unus.config
+
+--Global Table
+unus_global = {}
+unus_global.config = unus.config
+
+
+--Config
+function unus.save_config(self)
+    SMODS.save_mod_config(self)
+end
+
+local unus_config_tab = function()
+	return{--[[ Extra tab for any future settings
+		{
+		label = "Style",
+		chosen = true,
+		tab_definition_function = function()
+		return {
+			n = G.UIT.ROOT,
+				config = {
+					emboss = 0.05,
+					minh = 6,
+					r = 0.1,
+					minw = 7,
+					align = "cm",
+					padding = 0.2,
+					colour = G.C.BLACK,
+				},
+				nodes = {
+					{n=G.UIT.R, config={align = "cm"}, nodes={{n = G.UIT.T, config = {text = "Nothing's here...", colour = G.C.ORANGE, scale = 0.5}}}},
+                    {n=G.UIT.R, config={align = "cl"}, nodes={
+						create_toggle({label = "useless toggle"})
+					}}
+				}
+            }
+		end
+		},]]
+        {
+		label = "Options",
+		chosen = true,
+		tab_definition_function = function()
+		return {
+			n = G.UIT.ROOT,
+				config = {
+					emboss = 0.05,
+					minh = 8,
+					r = 0.1,
+					minw = 7,
+					align = "cm",
+					padding = 0.2,
+					colour = G.C.BLACK,
+				},
+				nodes = {
+					{n=G.UIT.R, config={align = "cm"}, nodes={{n = G.UIT.T, config = {text = "You must reload the game", colour = G.C.ORANGE, scale = 0.5}}}},
+					{n=G.UIT.R, config={align = "cm"}, nodes={{n = G.UIT.T, config = {text = "for settings to take effect.", colour = G.C.ORANGE, scale = 0.5}}}},
+                    {n=G.UIT.R, config={align = "cm"}, nodes={
+						create_toggle({label = 'Add "Unus Rules Card" Joker', ref_table = unus.config, ref_value = 'joker', callback = function() unus:save_config() end}),
+					}},
+					{n=G.UIT.R, config={align = "cm"}, nodes={{n = G.UIT.T, config = {text = "Adds a new Joker that lets you play with Unus cards on any deck.", colour = G.C.WHITE, scale = 0.25}}}},
+                    {n=G.UIT.R, config={align = "cm"}, nodes={
+						create_toggle({label = 'Joker override: 1, 0', ref_table = unus.config, ref_value = 'j_num', callback = function() unus:save_config() end}),
+					}},
+					{n=G.UIT.R, config={align = "cm"}, nodes={{n = G.UIT.T, config = {text = "Changes some vanilla Jokers to support 1 and 0.", colour = G.C.WHITE, scale = 0.25}}}},
+					{n=G.UIT.R, config={align = "cm"}, nodes={{n = G.UIT.T, config = {text = '(Fibonacci, Odd Todd, Even Steven, Hack and Raised Fist)', colour = G.C.WHITE, scale = 0.25}}}},
+                    {n=G.UIT.R, config={align = "cm"}, nodes={
+						create_toggle({label = 'Joker override: Random', ref_table = unus.config, ref_value = 'j_rand', callback = function() unus:save_config() end}),
+					}},
+					{n=G.UIT.R, config={align = "cm"}, nodes={{n = G.UIT.T, config = {text = "Prevents Idol and Castle from picking certain cards.", colour = G.C.WHITE, scale = 0.25}}}},
+                    {n=G.UIT.R, config={align = "cm"}, nodes={
+						create_toggle({label = 'Incantation override', ref_table = unus.config, ref_value = 'spec_incant', callback = function() unus:save_config() end}),
+					}},
+					{n=G.UIT.R, config={align = "cm"}, nodes={{n = G.UIT.T, config = {text = "Prevents Incantation from generating Unus action cards.", colour = G.C.WHITE, scale = 0.25}}}},
+				}
+            }
+		end
+		}
+	}
+end
+
+unus.extra_tabs = unus_config_tab
+unus.config_tab = true
+
+--Map config value with a single string keyword
+local config_value = {
+    ["joker"] = unus_config.joker,
+    ["j_num"] = unus_config.j_num,
+    ["j_rand"] = unus_config.j_rand,
+    ["spec_incant"] = unus_config.spec_incant,
+    ["loaded"] = unus_config.loaded,
+}
+-- Initiate default settings
+if not unus_config.loaded then
+    unus_config.joker = true
+    unus_config.j_num = true
+    unus_config.j_rand = true
+    unus_config.spec_incant = true
+    unus_config.loaded = true
+end
 
 --Atlas
 SMODS.Atlas {
@@ -19,35 +118,64 @@ SMODS.Atlas {
     px = 71,
     py = 95
 }
+SMODS.Atlas {
+    key = "unus_ui_lc",
+    path = "ui_lc.png",
+    px = 18,
+    py = 18
+}
+SMODS.Atlas {
+    key = "unus_ui_hc",
+    path = "ui_hc.png",
+    px = 18,
+    py = 18
+}
 
---[[
+--SFX
 SMODS.Sound({
 	key = "reverse",
 	path = "reverse.ogg",
 })
-]]
 
 --Load all lua files
-local mod_src = SMODS.NFS.getDirectoryItems(SMODS.current_mod.path .. "src")
-for _, file in ipairs(mod_src) do
-    assert(SMODS.load_file("src/" .. file))()
+assert(SMODS.load_file("src/ranks.lua"))()
+assert(SMODS.load_file("src/deck.lua"))()
+
+if unus_config.joker then
+    assert(SMODS.load_file("src/joker.lua"))()
+end
+if unus_config.j_num then
+    assert(SMODS.load_file("overrides/vanilla_joker_num.lua"))()
+end
+if unus_config.j_rand then
+    assert(SMODS.load_file("overrides/vanilla_joker_idol.lua"))()
+end
+if unus_config.spec_incant then
+    assert(SMODS.load_file("overrides/vanilla_spectral.lua"))()
 end
 
--- Check if area contains at least 1 card of a given rank
-local check_containsRank = function(rank_key, area)
+
+-- Check if area contains at least 1 playing card with "skip" config
+local check_skip = function(area)
     for _, playing_card in ipairs(area) do
-        local key = SMODS.Ranks[playing_card.base.value].key
-        if key == rank_key and not playing_card.debuff then
-            do return true end
+        if SMODS.Ranks[playing_card.base.value].config and SMODS.Ranks[playing_card.base.value].config.extras 
+        and SMODS.Ranks[playing_card.base.value].config.extras.skip and not playing_card.debuff then
+            do return playing_card end
         end
     end
 end
 
--- Special case for playing unus cards
-local check_unusPlay = function(card, scoring_hand)
+-- Unus Play condition
+local check_unusPlay = function(card, scoring_hand, full_hand)
     if SMODS.Ranks[card.base.value].unus_play and not card.debuff then
         for _, playing_card in ipairs(scoring_hand) do
-            if (playing_card:is_suit(card.base.suit) or card:is_suit(playing_card.base.suit)) and not playing_card.debuff then
+            if (playing_card:is_suit(card.base.suit) or card:is_suit(playing_card.base.suit)) then
+                do return true end
+            end
+        end
+        -- Check for wild cards
+        for _, playing_card in ipairs(full_hand) do
+            if (playing_card.config.center.key == "m_wild" or SMODS.Ranks[playing_card.base.value].is_wild) and (SMODS.Ranks[playing_card.base.value].always_scored or SMODS.Ranks[playing_card.base.value].unus_play) then
                 do return true end
             end
         end
@@ -55,91 +183,114 @@ local check_unusPlay = function(card, scoring_hand)
     end
 end
 
--- local vars
-local unus_drawcounter = 0
 
+-- Calculate function handles Unus card effects.
+unus.drawcounter = 0
+unus.skipCheck = false
 unus.calculate = function (self, context)
 
-    -- Special case for playing unus cards
     if context.modify_scoring_hand then
-        if check_unusPlay(context.other_card, context.scoring_hand) then
-            return {
-                add_to_hand = true
-            }
-        end
+        -- Always scored tag
         if SMODS.Ranks[context.other_card.base.value].always_scored then
             return {
                 add_to_hand = true
             }
         end
-
-        --Allow aces to form 2-A-0 straights, jank atm
-        if SMODS.Ranks[context.other_card.base.value].key == 'Ace' then
-            if check_containsRank('unus_0', context.full_hand)
-                and not (check_containsRank('King', context.scoring_hand) and SMODS.wrap_around_straight) then
-                SMODS.Ranks[context.other_card.base.value].straight_edge = false
-            else
-                SMODS.Ranks[context.other_card.base.value].straight_edge = true
-            end
+        -- Unus Play condition
+        if SMODS.Ranks[context.other_card.base.value].unus_play and check_unusPlay(context.other_card, context.scoring_hand, context.full_hand) then
+            return {
+                add_to_hand = true
+            }
         end
     end
 
     if context.individual and context.cardarea == G.play then
-        -- Draw
-        if SMODS.Ranks[context.other_card.base.value].key == 'unus_draw2' then
-            unus_drawcounter = unus_drawcounter + 2
+        -- Draws
+        if SMODS.Ranks[context.other_card.base.value].config and SMODS.Ranks[context.other_card.base.value].config.extras and SMODS.Ranks[context.other_card.base.value].config.extras.card_draw then
+            local draws = SMODS.Ranks[context.other_card.base.value].config.extras.card_draw
+            unus.drawcounter = unus.drawcounter + draws
             return {
-                message = "Draw +2!"
-            }
-        end
-        if SMODS.Ranks[context.other_card.base.value].key == 'unus_draw4' then
-            unus_drawcounter = unus_drawcounter + 4
-            return {
-                message = "Draw +4!"
+                message = "Draw +".. draws.. "!",
             }
         end
         -- Reverse
-        if SMODS.Ranks[context.other_card.base.value].key == 'unus_reverse' then
-            --play_sound('unus_reverse')
+        if SMODS.Ranks[context.other_card.base.value].config and SMODS.Ranks[context.other_card.base.value].config.extras and SMODS.Ranks[context.other_card.base.value].config.extras.reverse then
+            local reverses = SMODS.Ranks[context.other_card.base.value].config.extras.reverse
             return {
+                mult = reverses,
+                chips = -reverses,
+                --swap = true,
+
                 message = "Reverse!",
-                swap = true,
-                no_juice = true
+                colour = G.C.PURPLE,
+                remove_default_message = true,
+                sound = 'unus_reverse',
+                pitch = 1.48,
             }
         end
     end
 
-    -- Debuffs hand when skip is selected
+    -- Debuffs hand when Skip is in scoring hand
     if context.debuff_hand then
-        if check_containsRank('unus_skip', context.scoring_hand) then
-            --play_sound('timpani')
-            return {
-                debuff = true,
-                debuff_text = "Skip will trigger!",
-            }
+        if not G.GAME.blind.triggered then
+            if check_skip(context.scoring_hand) then
+                if not unus.skipCheck then
+                    play_sound('timpani')
+                    unus.skipCheck = true
+                    check_skip(context.scoring_hand):juice_up()
+                end
+                return {
+                    debuff = true,
+                    debuff_text = "Skip will trigger!",
+                }
+            else
+                unus.skipCheck = false
+                return {
+                    debuff = false
+                }
+            end
+        else
+            unus.skipCheck = false
         end
-    end
-
-    -- Gives hand back when skipping
-    if context.debuffed_hand and check_containsRank('unus_skip', context.scoring_hand) then
-        ease_hands_played(1)
-        return{
-            message = 'Skipped!',
-            colour = G.C.RED
-        }
     end
 
     -- Handle extra draws, reset counter
-    if context.drawing_cards and unus_drawcounter ~= 0 and (G.GAME.current_round.hands_played ~= 0) then
-        local new_draw = context.amount + unus_drawcounter
-        unus_drawcounter = 0
+    if context.drawing_cards and unus.drawcounter ~= 0 and (G.GAME.current_round.hands_played ~= 0) then
+        local new_draw = context.amount + unus.drawcounter
+        unus.drawcounter = 0
         return {
             cards_to_draw = new_draw
         }
     end
+
     -- Reset draw counter at end of round
-    if context.end_of_round and unus_drawcounter ~= 0 then
-        unus_drawcounter = 0
+    if context.end_of_round and unus.drawcounter ~= 0 then
+        unus.drawcounter = 0
+    end
+
+    -- Force wild suit on wildcards when attempting to convert
+    if context.change_suit and context.other_card and SMODS.Ranks[context.other_card.base.value].is_wild and context.new_suit ~= 'unus_Wilds' then
+        G.E_MANAGER:add_event(Event({
+            func = function()
+                SMODS.change_base(context.other_card, 'unus_Wilds')
+                context.other_card:set_sprites(nil, context.other_card.config.card)
+                return true
+            end
+        }))
+    end
+    -- Force wildcards from standard packs to be wilds suit
+    if context.modify_booster_card then
+        if context.booster.ability.name:find('Standard') and SMODS.Ranks[context.card.base.value].key then
+            if SMODS.Ranks[context.card.base.value].is_wild then
+                SMODS.change_base(context.card, 'unus_Wilds')
+            end
+        end
+    end
+    -- Force wildcards from Magic Trick to be wilds suit
+    if context.modify_shop_card then
+        if context.card and context.card.base and context.card.base.value and SMODS.Ranks[context.card.base.value].key and SMODS.Ranks[context.card.base.value].is_wild then
+            SMODS.change_base(context.card, 'unus_Wilds')
+        end
     end
 end
 
@@ -151,19 +302,3 @@ function SMODS.smeared_check(card, suit, ...)
     end
     return unus_smeared_hook(card, suit, ...)
 end
-
---[[
-SMODS.Joker {
-    name = "Unus Rules Card",
-    key = "unusjoker",
-    atlas = 'unus',
-    pos = { x = 0, y = 0 },
-    cost = 7,
-    rarity = 2,
-    blueprint_compat = false,
-    eternal_compat = true,
-    unlocked = true,
-    discovered = true,
-    attributes = { "passive", "booster" }
-}
-]]

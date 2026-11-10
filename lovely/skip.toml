@@ -1,0 +1,58 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 0
+
+# Skip card functionality, runs after pressing play hand
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "G.FUNCS.evaluate_play = function(e)"
+position = "before"
+match_indent = true
+payload = """
+local check_skip = function(area)
+    for _, playing_card in ipairs(area) do
+        if SMODS.Ranks[playing_card.base.value].config and SMODS.Ranks[playing_card.base.value].config.extras 
+        and SMODS.Ranks[playing_card.base.value].config.extras.skip and not playing_card.debuff then
+            do return playing_card end
+        end
+    end
+end
+"""
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "SMODS.calculate_context({full_hand = G.play.cards, scoring_hand = scoring_hand, scoring_name = text, poker_hands = poker_hands, debuffed_hand = true})"
+position = "after"
+match_indent = true
+payload = """
+end
+"""
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "mult = mod_mult(0)"
+position = "before"
+match_indent = true
+payload = """
+-- Unus skip cards
+if not G.GAME.blind.triggered and check_skip(scoring_hand) then
+    mult = mod_mult(0)
+    hand_chips = mod_chips(0)
+    SMODS.displayed_hand = nil
+    G.E_MANAGER:add_event(Event({
+        trigger = 'immediate',
+        func = (function()
+            check_skip(scoring_hand):juice_up()
+            G.E_MANAGER:add_event(Event({trigger = 'after', delay = 0.08*G.SETTINGS.GAMESPEED, blockable = false, blocking = false, func = function()
+                play_sound('timpani', 1.48, 0.6);return true end}))
+            play_sound('timpani', 1, 0.6)
+            return true
+        end)
+    }))
+
+    play_area_status_text("Skipped!")--localize('k_not_allowed_ex'), true)
+    ease_hands_played(1)
+else
+"""
