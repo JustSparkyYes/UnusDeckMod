@@ -29,8 +29,9 @@ Thanks to the developers of [VanillaRemade](https://github.com/nh6574/VanillaRem
 
 ### Some notes to keep in mind for any players:
 
+- Not tested with other mods. May support specific mods in the future.
 - Wild Card suit doesn't appear correctly in the Customize menu. However, here you can toggle high/low contrast to change the colors of Wild Cards.
-- Aces cannot connect to 0 in a Straight, I plan on adding that soon.
+- Aces cannot connect to 0 in a Straight, I plan on adding that eventually.
 - Action cards ignore Strength.
 
 No GenAI was used in the making of this mod.
