@@ -33,4 +33,4 @@ Thanks to the developers of [VanillaRemade](https://github.com/nh6574/VanillaRem
 - Aces cannot connect to 0 in a Straight, I plan on adding that soon.
 - Action cards ignore Strength.
 
-No AI was used in the making of this mod.
+No GenAI was used in the making of this mod.
