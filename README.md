@@ -1,6 +1,14 @@
-This mod (WIP) adds the Unus deck, a somewhat familiar-looking deck that contains powerful cards with various special effects!
+# Unus Mod
 
-Deck Composition:
+This standalone mod adds the **Unus Deck**, a somewhat familiar-looking deck that contains action cards with various powerful effects!
+
+Also adds an optional Uncommon Joker that enables finding action cards in other decks. Features can be toggled in the Options tab of the mod menu.
+
+### Unus Deck
+- Unus cards may appear in Standard pools
+- -1 hand size (7 cards total)
+
+### Deck Composition:
 
 - 4 cards each # 0-9
 - 4 Skip
@@ -9,20 +17,21 @@ Deck Composition:
 - 3 Wild Cards
 - 1 Wild Draw 4
 
+### Credits
 
 Art and programming: JustSparkyYes
 
-Thanks to theAstra for their tutorials and placeholder assets.
+Thanks to [theAstra](https://www.youtube.com/@theAstra_) for their tutorials and placeholder assets!
 
-No AI was used in the making of this mod.
+Thanks to the developers of [VanillaRemade](https://github.com/nh6574/VanillaRemade/tree/main) and [Unstable](https://github.com/kirbio/UnStable/tree/main) for making their code open-source, which helped me learn how to put this mod together. Vanilla joker support code is from Unstable.
 
 
-Some issues to keep in mind for any players:
 
-- This mod does not use quantum enhancements, so Wild Cards might not interact with other mods as desired.
-- Currently Unus cards appear in Standard Packs for all decks, so you'll need to disable the mod if you don't want that.
-- Vanilla Jokers are not fully supported yet.
-- A "Not Allowed" message appears when successfully playing a Skip card. Will look into a way to change the message.
-- Wild Cards still display their suit. This has no bearing on gameplay.
-- 2-A-0 Straights are possible but have not been fully implemented. Clicking on the Ace should fix any visual errors.
-- A warning that Symbols and Wild Cards turn into 0 when Strength is used on them.
+### Some notes to keep in mind for any players:
+
+- Not tested with other mods. May support specific mods in the future.
+- Wild Card suit doesn't appear correctly in the Customize menu. However, here you can toggle high/low contrast to change the colors of Wild Cards.
+- Aces cannot connect to 0 in a Straight, I plan on adding that eventually.
+- Action cards ignore Strength.
+
+No GenAI was used in the making of this mod.
