@@ -52,7 +52,7 @@ if not G.GAME.blind.triggered and check_skip(scoring_hand) then
         end)
     }))
 
-    play_area_status_text("Skipped!")--localize('k_not_allowed_ex'), true)
+    play_area_status_text( localize("k_unus_skip")
     ease_hands_played(1)
 else
 """

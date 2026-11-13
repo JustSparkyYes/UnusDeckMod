@@ -38,7 +38,7 @@ local unus_config_tab = function()
 		end
 		},]]
         {
-		label = "Options",
+		label = localize("unus_config_tab_options"),
 		chosen = true,
 		tab_definition_function = function()
 		return {
@@ -53,25 +53,25 @@ local unus_config_tab = function()
 					colour = G.C.BLACK,
 				},
 				nodes = {
-					{n=G.UIT.R, config={align = "cm"}, nodes={{n = G.UIT.T, config = {text = "You must reload the game", colour = G.C.ORANGE, scale = 0.5}}}},
-					{n=G.UIT.R, config={align = "cm"}, nodes={{n = G.UIT.T, config = {text = "for settings to take effect.", colour = G.C.ORANGE, scale = 0.5}}}},
+					{n=G.UIT.R, config={align = "cm"}, nodes={{n = G.UIT.T, config = {text = localize("unus_config_header_1"), colour = G.C.ORANGE, scale = 0.5}}}},
+					{n=G.UIT.R, config={align = "cm"}, nodes={{n = G.UIT.T, config = {text = localize("unus_config_header_2"), colour = G.C.ORANGE, scale = 0.5}}}},
                     {n=G.UIT.R, config={align = "cm"}, nodes={
-						create_toggle({label = 'Add "Unus Rules Card" Joker', ref_table = unus.config, ref_value = 'joker', callback = function() unus:save_config() end}),
+						create_toggle({label = localize("unus_config_joker"), ref_table = unus.config, ref_value = 'joker', callback = function() unus:save_config() end}),
 					}},
-					{n=G.UIT.R, config={align = "cm"}, nodes={{n = G.UIT.T, config = {text = "Adds a new Joker that lets you play with Unus cards on any deck.", colour = G.C.WHITE, scale = 0.25}}}},
+					{n=G.UIT.R, config={align = "cm"}, nodes={{n = G.UIT.T, config = {text = localize("unus_config_joker_desc"), colour = G.C.WHITE, scale = 0.25}}}},
                     {n=G.UIT.R, config={align = "cm"}, nodes={
-						create_toggle({label = 'Joker override: 1, 0', ref_table = unus.config, ref_value = 'j_num', callback = function() unus:save_config() end}),
+						create_toggle({label = localize("unus_config_j_num"), ref_table = unus.config, ref_value = 'j_num', callback = function() unus:save_config() end}),
 					}},
-					{n=G.UIT.R, config={align = "cm"}, nodes={{n = G.UIT.T, config = {text = "Changes some vanilla Jokers to support 1 and 0.", colour = G.C.WHITE, scale = 0.25}}}},
-					{n=G.UIT.R, config={align = "cm"}, nodes={{n = G.UIT.T, config = {text = '(Fibonacci, Odd Todd, Even Steven, Hack and Raised Fist)', colour = G.C.WHITE, scale = 0.25}}}},
+					{n=G.UIT.R, config={align = "cm"}, nodes={{n = G.UIT.T, config = {text = localize("unus_config_j_num_desc_1"), colour = G.C.WHITE, scale = 0.25}}}},
+					{n=G.UIT.R, config={align = "cm"}, nodes={{n = G.UIT.T, config = {text = localize("unus_config_j_num_desc_2"), colour = G.C.WHITE, scale = 0.25}}}},
                     {n=G.UIT.R, config={align = "cm"}, nodes={
-						create_toggle({label = 'Joker override: Random', ref_table = unus.config, ref_value = 'j_rand', callback = function() unus:save_config() end}),
+						create_toggle({label = localize("unus_config_j_rand"), ref_table = unus.config, ref_value = 'j_rand', callback = function() unus:save_config() end}),
 					}},
-					{n=G.UIT.R, config={align = "cm"}, nodes={{n = G.UIT.T, config = {text = "Prevents Idol and Castle from picking certain cards.", colour = G.C.WHITE, scale = 0.25}}}},
+					{n=G.UIT.R, config={align = "cm"}, nodes={{n = G.UIT.T, config = {text = localize("unus_config_j_rand_desc"), colour = G.C.WHITE, scale = 0.25}}}},
                     {n=G.UIT.R, config={align = "cm"}, nodes={
-						create_toggle({label = 'Incantation override', ref_table = unus.config, ref_value = 'spec_incant', callback = function() unus:save_config() end}),
+						create_toggle({label = localize("unus_config_spec_incant"), ref_table = unus.config, ref_value = 'spec_incant', callback = function() unus:save_config() end}),
 					}},
-					{n=G.UIT.R, config={align = "cm"}, nodes={{n = G.UIT.T, config = {text = "Prevents Incantation from generating Unus action cards.", colour = G.C.WHITE, scale = 0.25}}}},
+					{n=G.UIT.R, config={align = "cm"}, nodes={{n = G.UIT.T, config = {text = localize("unus_config_spec_incant_desc"), colour = G.C.WHITE, scale = 0.25}}}},
 				}
             }
 		end
@@ -210,7 +210,7 @@ unus.calculate = function (self, context)
             local draws = SMODS.Ranks[context.other_card.base.value].config.extras.card_draw
             unus.drawcounter = unus.drawcounter + draws
             return {
-                message = "Draw +".. draws.. "!",
+                message = localize({type = "variable", key = "k_unus_draw", vars = { draws } }),
             }
         end
         -- Reverse
@@ -221,7 +221,7 @@ unus.calculate = function (self, context)
                 chips = -reverses,
                 --swap = true,
 
-                message = "Reverse!",
+                message = localize("k_unus_reverse"),
                 colour = G.C.PURPLE,
                 remove_default_message = true,
                 sound = 'unus_reverse',
@@ -241,7 +241,7 @@ unus.calculate = function (self, context)
                 end
                 return {
                     debuff = true,
-                    debuff_text = "Skip will trigger!",
+                    debuff_text = localize("k_unus_skip_text"),
                 }
             else
                 unus.skipCheck = false

@@ -75,6 +75,13 @@ return {
                     "{s:0.8}card has same suit.{}",
                 }
             },
+            unus_reverse_ability_ex = {
+                text = {
+                    "Swap {C:chips}Chips{} and {C:mult}Mult{}",
+                    "{s:0.8}Also plays if a scoring{}",
+                    "{s:0.8}card has same suit.{}",
+                }
+            },
             unus_draw2_ability = {
                 text = {
                     "Draw {C:attention}+2{} cards",
@@ -126,11 +133,24 @@ return {
             unus_Wilds = "Wild",
         },
         dictionary = {
-            k_unus_draw2 = "Draw +2!",
-            k_unus_draw4 = "Draw +4!",
+            unus_config_tab_options = "Options",
+            unus_config_header_1 = "You must reload the game",
+            unus_config_header_2 = "for settings to take effect.",
+            unus_config_joker = 'Add "Unus Rules Card" Joker',
+            unus_config_joker_desc = 'Adds a new Joker that lets you play with Unus cards on any deck.',
+            unus_config_j_num = 'Joker override: 1, 0',
+            unus_config_j_num_desc_1 = 'Changes some vanilla Jokers to support 1 and 0.',
+            unus_config_j_num_desc_2 = '(Fibonacci, Odd Todd, Even Steven, Hack and Raised Fist)',
+            unus_config_j_rand = 'Joker override: Random',
+            unus_config_j_rand_desc = 'Prevents Idol and Castle from picking certain cards.',
+            unus_config_spec_incant = "Incantation override",
+            unus_config_spec_incant_desc = "Prevents Incantation from generating Unus action cards.",
             k_unus_reverse = "Reverse!",
             k_unus_skip = "Skipped!",
             k_unus_skip_text = "Skip will trigger!",
+        },
+        v_dictionary = {
+            k_unus_draw = "Draw +#1#!",
         }
     },
 }
