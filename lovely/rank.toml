@@ -15,7 +15,12 @@ payload = """
 local isCollection = (card and card.area and card.area.config.collection) or false
 if not isCollection and (_c.set == 'Default' or _c.set == 'Enhanced') and card and card.base and card.base.value and SMODS.Ranks[card.base.value].loc_desc and not card.config.center.no_rank and not card.debuff then
 	local rank_key =  SMODS.Ranks[card.base.value].key or 'unus_0'
-    localize{type = 'other', key = rank_key..'_ability', nodes = desc_nodes}
+
+    if unus_global.reverse and rank_key == "unus_reverse" then
+        localize{type = 'other', key = rank_key..'_ability_ex', nodes = desc_nodes}
+    else
+        localize{type = 'other', key = rank_key..'_ability', nodes = desc_nodes}
+    end
 end
 """
 

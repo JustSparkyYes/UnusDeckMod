@@ -60,6 +60,10 @@ local unus_config_tab = function()
 					}},
 					{n=G.UIT.R, config={align = "cm"}, nodes={{n = G.UIT.T, config = {text = localize("unus_config_joker_desc"), colour = G.C.WHITE, scale = 0.25}}}},
                     {n=G.UIT.R, config={align = "cm"}, nodes={
+						create_toggle({label = localize("unus_config_reverse"), ref_table = unus.config, ref_value = 'reverse', callback = function() unus:save_config() end}),
+					}},
+					{n=G.UIT.R, config={align = "cm"}, nodes={{n = G.UIT.T, config = {text = localize("unus_config_reverse_desc"), colour = G.C.WHITE, scale = 0.25}}}},
+                    {n=G.UIT.R, config={align = "cm"}, nodes={
 						create_toggle({label = localize("unus_config_j_num"), ref_table = unus.config, ref_value = 'j_num', callback = function() unus:save_config() end}),
 					}},
 					{n=G.UIT.R, config={align = "cm"}, nodes={{n = G.UIT.T, config = {text = localize("unus_config_j_num_desc_1"), colour = G.C.WHITE, scale = 0.25}}}},
@@ -85,6 +89,7 @@ unus.config_tab = true
 --Map config value with a single string keyword
 local config_value = {
     ["joker"] = unus_config.joker,
+    ["reverse"] = unus_config.reverse,
     ["j_num"] = unus_config.j_num,
     ["j_rand"] = unus_config.j_rand,
     ["spec_incant"] = unus_config.spec_incant,
@@ -93,11 +98,13 @@ local config_value = {
 -- Initiate default settings
 if not unus_config.loaded then
     unus_config.joker = true
+    unus_config.reverse = false
     unus_config.j_num = true
     unus_config.j_rand = true
     unus_config.spec_incant = true
     unus_config.loaded = true
 end
+unus_global.reverse = unus_config.reverse
 
 --Atlas
 SMODS.Atlas {
@@ -215,18 +222,29 @@ unus.calculate = function (self, context)
         end
         -- Reverse
         if SMODS.Ranks[context.other_card.base.value].config and SMODS.Ranks[context.other_card.base.value].config.extras and SMODS.Ranks[context.other_card.base.value].config.extras.reverse then
-            local reverses = SMODS.Ranks[context.other_card.base.value].config.extras.reverse
-            return {
-                mult = reverses,
-                chips = -reverses,
-                --swap = true,
+            if unus_config.reverse then
+                return {
+                    swap = true,
 
-                message = localize("k_unus_reverse"),
-                colour = G.C.PURPLE,
-                remove_default_message = true,
-                sound = 'unus_reverse',
-                pitch = 1.48,
-            }
+                    message = localize("k_unus_reverse"),
+                    colour = G.C.PURPLE,
+                    remove_default_message = true,
+                    sound = 'unus_reverse',
+                    pitch = 1.64,
+                }
+            else
+                local reverses = SMODS.Ranks[context.other_card.base.value].config.extras.reverse
+                return {
+                    mult = reverses,
+                    chips = -reverses,
+
+                    message = localize("k_unus_reverse"),
+                    colour = G.C.PURPLE,
+                    remove_default_message = true,
+                    sound = 'unus_reverse',
+                    pitch = 1.64,
+                }
+            end
         end
     end
 

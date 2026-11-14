@@ -70,7 +70,7 @@ return {
             },
             unus_reverse_ability = {
                 text = {
-                    "{C:red}-8{} Chips and {C:mult}+8{} Mult",
+                    "{C:red}-8{} {C:chips}Chips{} and {C:mult}+8 Mult{}",
                     "{s:0.8}Also plays if a scoring{}",
                     "{s:0.8}card has same suit.{}",
                 }
@@ -138,6 +138,8 @@ return {
             unus_config_header_2 = "for settings to take effect.",
             unus_config_joker = 'Add "Unus Rules Card" Joker',
             unus_config_joker_desc = 'Adds a new Joker that lets you play with Unus cards on any deck.',
+            unus_config_reverse = 'Un-nerf Reverses',
+            unus_config_reverse_desc = 'Replaces Reverse cards with their old, stronger effect.',
             unus_config_j_num = 'Joker override: 1, 0',
             unus_config_j_num_desc_1 = 'Changes some vanilla Jokers to support 1 and 0.',
             unus_config_j_num_desc_2 = '(Fibonacci, Odd Todd, Even Steven, Hack and Raised Fist)',
