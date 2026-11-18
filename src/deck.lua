@@ -15,18 +15,38 @@ SMODS.Back {
         setPoolRankFlagEnable('unus_skip', true);
         setPoolRankFlagEnable('unus_reverse', true);
         setPoolRankFlagEnable('unus_draw2', true);
-        setPoolRankFlagEnable('unus_wildcard', true);
-        setPoolRankFlagEnable('unus_draw4', true);
 
         G.E_MANAGER:add_event(Event({
             func = function()
-                --Manually add in wild cards
-                for i = 1, 3 do
-                    SMODS.add_card({ set = "Base", rank = 'unus_wildcard', suit = 'unus_Wilds', area = G.deck, immediate = true })
+                if not G.GAME.starting_params.erratic_suits_and_ranks then
+                        --Manually add in wild cards
+                        for i = 1, 3 do
+                            SMODS.add_card({ set = "Base", rank = 'unus_wildcard', suit = 'unus_Wilds', area = G.deck, immediate = true })
+                        end
+                        SMODS.add_card({ set = "Base", rank = 'unus_draw4', suit = 'unus_Wilds', area = G.deck, immediate = true })
+                else
+                    --For Erratic Sleeve
+                    for i = 1, 4 do
+                        SMODS.add_card({ set = "Base", area = G.deck, immediate = true })
+                    end
+                    for _, playing_card in ipairs(G.playing_cards) do
+                        local rand = math.random(#G.playing_cards)
+                        if rand <= 2 then
+                                assert(SMODS.change_base(playing_card, 'unus_Wilds', 'unus_wildcard'))
+                        else
+                            if rand <= 4 then
+                                assert(SMODS.change_base(playing_card, 'unus_Wilds', 'unus_draw4'))
+                            end
+                        end
+                    end
                 end
-                SMODS.add_card({ set = "Base", rank = 'unus_draw4', suit = 'unus_Wilds', area = G.deck, immediate = true })
 
                 G.GAME.starting_deck_size = #G.playing_cards
+                
+                --Add these back into the pool after the deck is finished
+                setPoolRankFlagEnable('unus_wildcard', true);
+                setPoolRankFlagEnable('unus_draw4', true);
+
                 return true
             end
         }))

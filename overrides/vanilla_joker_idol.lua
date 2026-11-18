@@ -12,7 +12,7 @@ function reset_idol_card()
         local idol_card = pseudorandom_element(valid_idol_cards, pseudoseed('idol'..G.GAME.round_resets.ante))
         G.GAME.current_round.idol_card.rank = idol_card.base.value
         G.GAME.current_round.idol_card.id = idol_card.base.id
-        if not SMODS.Ranks[idol_card.base.value].is_wild then
+        if not idol_card:is_suit("unus_Wild") then
             G.GAME.current_round.idol_card.suit = idol_card.base.suit
         end
     end
@@ -24,7 +24,7 @@ function reset_castle_card()
     G.GAME.current_round.castle_card.suit = 'Spades'
     local valid_castle_cards = {}
     for k, v in ipairs(G.playing_cards) do
-        if v.ability.effect ~= 'Stone Card' and not SMODS.Ranks[v.base.value].is_wild then
+        if v.ability.effect ~= 'Stone Card' and not v:is_suit("unus_Wild") then
             valid_castle_cards[#valid_castle_cards+1] = v
         end
     end

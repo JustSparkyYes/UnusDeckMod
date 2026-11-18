@@ -162,6 +162,11 @@ if unus_config.spec_incant then
 end
 
 
+--CardSleeves mod
+if CardSleeves then
+    assert(SMODS.load_file("src/sleeve.lua"))()
+end
+
 -- Check if area contains at least 1 playing card with "skip" config
 local check_skip = function(area)
     for _, playing_card in ipairs(area) do

@@ -4,6 +4,8 @@ This standalone mod adds the **Unus Deck**, a somewhat familiar-looking deck tha
 
 Also adds an optional Uncommon Joker that enables finding action cards in other decks. Features can be toggled in the Options tab of the mod menu.
 
+Requires [Steamodded](https://github.com/Steamodded/smods). Supports [CardSleeves](https://github.com/larswijn/CardSleeves).
+
 ### Unus Deck
 - Unus cards may appear in Standard pools
 - -1 hand size (7 cards total)
@@ -24,8 +26,6 @@ Art and programming: JustSparkyYes
 Thanks to [theAstra](https://www.youtube.com/@theAstra_) for their tutorials and placeholder assets!
 
 Thanks to the developers of [VanillaRemade](https://github.com/nh6574/VanillaRemade/tree/main) and [Unstable](https://github.com/kirbio/UnStable/tree/main) for making their code open-source, which helped me learn how to put this mod together. Vanilla joker support code is from Unstable.
-
-
 
 ### Some notes to keep in mind for any players:
 

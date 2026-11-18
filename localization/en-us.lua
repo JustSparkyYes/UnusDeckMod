@@ -114,6 +114,25 @@ return {
                     "{V:1}#2# {C:light_black}#1#",
                 },
             }
+        },
+        Sleeve = {
+            sleeve_unus_unus = {
+                name = "Unus Sleeve",
+                text = {
+                    "Start with a full set",
+                    "of {C:red}Unus{} {C:attention}action{} cards.",
+                    "{C:red}Unus{} cards may appear",
+                    "in {C:attention}Standard Packs{}",
+                    "{C:red}#1#{} hand size"
+                }
+            },
+            sleeve_unus_unus_alt = {
+                name = "Unus Sleeve",
+                text = {
+                    "{C:attention}Real life{}",
+                    "deck composition"
+                }
+            }
         }
     },
     misc = {
